@@ -1,0 +1,124 @@
+﻿@* @{
+    Layout = null; // Using a custom layout for the landing page (or you can integrate into your shared layout)
+    ViewData["Title"] = "Welcome to NeoBank";
+} *@
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Welcome to NeoBank";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewData["Title"] - NeoBank</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/BulkyWeb.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css" />
+    <style>
+    html, body {
+        height: 100%;
+        margin: 0;
+    }
+
+    /* Full page background image */
+    .bg-full {
+        background: url('/images/bank-building.jpg') no-repeat center center fixed;
+        background-size: cover;
+        height: 100%;
+        position: relative;
+    }
+    /* Floating login/signup panel */
+    .overlay-form {
+        position: absolute;
+        top: 50%;
+        right: 5%;
+        transform: translateY(-50%);
+        background: rgba(255, 255, 255, 0.95);
+        padding: 2rem;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.2);
+        width: 400px;
+        height: 80%;
+    }
+    @@media (max-width: 768px) {
+        .overlay-form {
+            right: 5%;
+            left: 5%;
+            width: auto;
+        }
+    }
+</style>
+
+</head>
+<body class="bg-full">
+    <!-- Floating login/signup panel -->
+    <div class="overlay-form">
+        <h2 class="text-center mb-4">Welcome to NeoBank</h2>
+        <!-- Nav Tabs for Login and Signup -->
+        <ul class="nav nav-tabs mb-3" id="authTab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="login-tab" data-bs-toggle="tab" data-bs-target="#login" type="button" role="tab" aria-controls="login" aria-selected="true">
+                    Login
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="signup-tab" data-bs-toggle="tab" data-bs-target="#signup" type="button" role="tab" aria-controls="signup" aria-selected="false">
+                    Sign Up
+                </button>
+            </li>
+        </ul>
+        <div class="tab-content" id="authTabContent">
+            <!-- Login Form -->
+            <div class="tab-pane fade show active" id="login" role="tabpanel" aria-labelledby="login-tab">
+                <form method="post" action="/Account/Login">
+                    <div class="mb-3">
+                        <label for="loginEmail" class="form-label">Email address</label>
+                        <input type="email" class="form-control" id="loginEmail" name="email" placeholder="Enter email" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="loginPassword" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="loginPassword" name="password" placeholder="Enter password" required />
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Login</button>
+                </form>
+            </div>
+            <!-- Signup Form -->
+            <div class="tab-pane fade" id="signup" role="tabpanel" aria-labelledby="signup-tab">
+                <form method="post" action="/Account/Register">
+                    <div class="mb-3">
+                        <label for="signupName" class="form-label">First Name</label>
+                        <input type="text" class="form-control" id="signupName" name="fullName" placeholder="Enter your first name" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="signupName" class="form-label">Last Name</label>
+                        <input type="text" class="form-control" id="signupName" name="fullName" placeholder="Enter your last name" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="signupEmail" class="form-label">Email address</label>
+                        <input type="email" class="form-control" id="signupEmail" name="email" placeholder="Enter email" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="signupDateofBirth" class="form-label">Date of Birth</label>
+                        <input type="date" class="form-control" id="signupDateofBirth" name="DateOfBirth" placeholder="Enter date of birth" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="signupPassword" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="signupPassword" name="password" placeholder="Create a password" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="signupPassword" class="form-label">ConfirmPassword</label>
+                        <input type="password" class="form-control" id="signupPassword" name="password" placeholder="Confirm password" required />
+                    </div>
+                    <button type="submit" class="btn btn-success w-100">Sign Up</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

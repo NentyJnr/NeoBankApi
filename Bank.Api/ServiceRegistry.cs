@@ -13,7 +13,7 @@ namespace Bank.Api
     {
         public static IServiceCollection ConfigureServices(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddDbContext<AppDbContext>(options =>
+            services.AddDbContext<ApppDbContext>(options =>
                 options.UseSqlServer(
                     configuration.GetConnectionString("sqlConnection")));
 

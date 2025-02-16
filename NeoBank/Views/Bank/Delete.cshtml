@@ -1,0 +1,44 @@
+﻿@using NeoBank.Dto
+@model CreateAccountDto
+
+<partial name="_Notification" />
+
+<div class="card shadow border-0 mt-4">
+    <div class="card-header bg-danger bg-gradient py-3">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h2 class="text-white py-2">Delete Account</h2>
+            </div>
+        </div>
+    </div>
+    <div class="card-body p-4">
+        <div class="border p-3">
+            <p class="h4">Are you sure you want to delete this account?</p>
+            <p><strong>Account Name:</strong> @Model.AccountName</p>
+            <p><strong>Email:</strong> @Model.Email</p>
+            <p><strong>AccountNumber:</strong> @Model.AccountNumber</p>
+            <p><strong>Account Number:</strong> @Model.AccountBalance</p>
+
+            @* Add other account details if necessary *@
+
+            <form asp-action="Delete" method="post">
+                @Html.AntiForgeryToken()
+                @* Include the account ID as a hidden field *@
+                <input type="hidden" asp-for="Id" />
+
+                <div class="row pt-4">
+                    <div class="col-6 col-md-3">
+                        <button type="submit" class="btn btn-danger form-control">
+                            <i class="bi bi-trash"></i> Delete
+                        </button>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <a asp-controller="Bank" asp-action="Index" class="btn btn-outline-secondary form-control">
+                            <i class="bi bi-arrow-left-circle"></i> Cancel
+                        </a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,57 @@
+﻿@using NeoBank.Dto
+@model DepositDto
+
+<partial name="_Notification" />
+
+<div class="card shadow border-0 mt-4">
+    <div class="card-header bg-secondary bg-gradient ml-0 py-3">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h2 class="text-white py-2">Deposit Funds</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="card-body p-4">
+        <form method="post" class="row">
+            <div class="border p-3">
+                @* Display Validation Errors *@
+                <div asp-validation-summary="All" class="text-danger"></div>
+
+                @* Account Number Field *@
+                <div class="form-floating py-2 col-12">
+                    <input asp-for="AccountNumber" class="form-control border-0 shadow" placeholder="Enter Account Number" />
+                    <label asp-for="AccountNumber" class="ms-2"></label>
+                    <span asp-validation-for="AccountNumber" class="text-danger"></span>
+                </div>
+
+                @* Amount Field *@
+                <div class="form-floating py-2 col-12 pt-4">
+                    <input asp-for="Amount" class="form-control border-0 shadow" placeholder="Enter Amount" />
+                    <label asp-for="Amount" class="ms-2"></label>
+                    <span asp-validation-for="Amount" class="text-danger"></span>
+                </div>
+
+                @* Deposit Button *@
+                <div class="row pt-4">
+                    <div class="col-6 col-md-3">
+                        <button type="submit" class="btn btn-primary form-control">
+                            <i class="bi bi-wallet2"></i> Deposit
+                        </button>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <a asp-controller="Bank" asp-action="Index" class="btn btn-outline-primary border form-control">
+                            <i class="bi bi-arrow-left-circle"></i> Back to Accounts
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @* Include validation scripts *@
+    <partial name="_ValidationScriptsPartial" />
+}
+

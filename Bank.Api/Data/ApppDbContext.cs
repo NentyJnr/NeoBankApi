@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Bank.Api.Data
 {
-    public class AppDbContext :DbContext
+    public class ApppDbContext :DbContext
     {
-        public AppDbContext(DbContextOptions options) : base(options)
+        public ApppDbContext(DbContextOptions options) : base(options)
         {
             
         }

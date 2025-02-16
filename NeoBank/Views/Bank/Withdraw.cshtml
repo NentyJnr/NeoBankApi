@@ -1,0 +1,90 @@
+﻿@using NeoBank.Dto
+@model WithdrawalDto
+
+<partial name="_Notification" />
+
+<div class="card shadow border-0 mt-4">
+    <div class="card-header bg-secondary bg-gradient py-3">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h2 class="text-white py-2">Withdraw Funds</h2>
+            </div>
+        </div>
+    </div>
+    <div class="card-body p-4">
+        <form method="post" class="row">
+            @Html.AntiForgeryToken()
+            <div class="border p-3">
+                <!-- Display validation errors -->
+                <div asp-validation-summary="All" class="text-danger"></div>
+
+                <!-- Account Number Field with dynamic account name lookup -->
+                <div class="form-floating py-2 col-12">
+                    <input asp-for="AccountNumber" class="form-control border-0 shadow" placeholder="Enter Account Number" id="accountNumber" />
+                    <label asp-for="AccountNumber" class="ms-2"></label>
+                    <span asp-validation-for="AccountNumber" class="text-danger"></span>
+                </div>
+                <div class="mb-2">
+                    <label>Account Name:</label>
+                    <span id="accountName" class="fw-bold"></span>
+                </div>
+
+                <!-- Withdrawal Amount Field -->
+                <div class="form-floating py-2 col-12">
+                    <input asp-for="Amount" class="form-control border-0 shadow" placeholder="Enter Withdrawal Amount" id="amount" />
+                    <label asp-for="Amount" class="ms-2"></label>
+                    <span asp-validation-for="Amount" class="text-danger"></span>
+                </div>
+
+                <!-- Submit and Back Buttons -->
+                <div class="row pt-4">
+                    <div class="col-6 col-md-3">
+                        <button type="submit" class="btn btn-primary form-control">
+                            <i class="bi bi-wallet2"></i> Withdraw
+                        </button>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <a asp-controller="Bank" asp-action="Index" class="btn btn-outline-primary border form-control">
+                            <i class="bi bi-arrow-left-circle"></i> Back to Accounts
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Function to fetch and display the account name via AJAX
+            function fetchAccountName() {
+                var accountNumber = $('#accountNumber').val().trim();
+                if (accountNumber) {
+                    $.ajax({
+                        url: '@Url.Action("GetAccountName", "Account")',
+                        data: { accountNumber: accountNumber },
+                        success: function (result) {
+                            if (result.success) {
+                                $('#accountName').text(result.accountName);
+                            } else {
+                                $('#accountName').text("Not found");
+                            }
+                        },
+                        error: function () {
+                            $('#accountName').text("Error retrieving account name");
+                        }
+                    });
+                } else {
+                    $('#accountName').text("");
+                }
+            }
+
+            // Trigger the AJAX call when the account number field loses focus
+            $('#accountNumber').on('blur', fetchAccountName);
+        });
+    </script>
+}
+

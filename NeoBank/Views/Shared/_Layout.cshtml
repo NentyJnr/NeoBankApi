@@ -1,0 +1,140 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>@ViewData["Title"] - NeoBank</title>
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+        <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/BulkyWeb.styles.css" asp-append-version="true" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css" />
+
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" />
+        <link rel="stylesheet" href="//cdn.datatables.net/1.13.3/css/jquery.dataTables.min.css" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+        @RenderSection("CustomStyles", required: false)
+    </head>
+    <body style="background: url('/images/bank-building.jpg') no-repeat center center fixed; background-size: cover;">
+       <div class="d-flex flex-column min-vh-100">
+            <header>
+                <nav class="navbar navbar-expand-sm navbar-dark bg-primary">
+                    <div class="container">
+                        <!-- Left: NeoBank brand linking to Home -->
+                        <a class="navbar-brand" asp-controller="Home" asp-action="Index">NeoBank</a>
+                        
+
+                        <!-- Toggle button for mobile view -->
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                            <!-- Navbar Items -->
+
+                            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                                @if (User.Identity.IsAuthenticated)
+                                {
+                                    
+                                
+                                    <!-- Authenticated: Right-aligned Transactions and Profile Dropdown -->
+                                    <ul class="navbar-nav ms-auto">
+                                        <li class="nav-item">
+                                            <a class="nav-link" asp-controller="Bank" asp-action="Transactions">Transactions</a>
+                                        </li>
+                                        <li class="nav-item dropdown">
+                                            <a class="nav-link dropdown-toggle" href="#" id="transactionDropdown" role="button"
+                                               data-bs-toggle="dropdown" aria-expanded="false">
+                                                @User.Identity.Name
+                                            </a>
+                                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="transactionDropdown">
+                                                <li><a class="dropdown-item" asp-controller="Bank" asp-action="Credit">Credit</a></li>
+                                                <li><a class="dropdown-item" asp-controller="Bank" asp-action="Debit">Debit</a></li>
+                                                <li><hr class="dropdown-divider" /></li>
+                                            </ul>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" asp-controller="Account" asp-action="Profile">Profile</a>
+                                        </li>
+
+                                        <li class="nav-item dropdown">
+                                            <a class="nav-link dropdown-toggle" href="#" id="profileDropdown" role="button"
+                                               data-bs-toggle="dropdown" aria-expanded="false">
+                                                @User.Identity.Name
+                                            </a>
+                                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
+                                                <li><a class="dropdown-item" asp-controller="Account" asp-action="Profile">Profile</a></li>
+                                                <li><a class="dropdown-item" asp-controller="Account" asp-action="EditProfile">Edit Profile</a></li>
+                                                <li><hr class="dropdown-divider" /></li>
+                                                <li><a class="dropdown-item" asp-controller="Account" asp-action="Logout">Logout</a></li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                }
+                                    
+                                
+                            </div>
+                          
+                     </div>
+                </nav>
+
+            </header>
+                     <main class="flex-fill container pb-3">
+                      @RenderBody()
+                    </main>
+
+                    <footer class="border-top footer bg-primary text-muted">
+                        <div class="text-center">
+                            Made with <i class="bi bi-heart-fill"></i> by Neo Nenty
+                        </div>
+                    </footer>
+       </div>
+        <script src="~/lib/jquery/dist/jquery.min.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="//cdn.datatables.net/1.13.3/js/jquery.dataTables.min.js" asp-append-version="true"></script>
+        <script src="https://cdn.tiny.cloud/1/uhlcstesx5efsg9uxfukptwonxcy1n9hbdq83pxxfjvrucqr/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Function to activate a tab given its button id
+            function activateTab(tabButtonId) {
+                var tabTriggerEl = document.querySelector(tabButtonId);
+                if (tabTriggerEl) {
+                    var tab = new bootstrap.Tab(tabTriggerEl);
+                    tab.show();
+                }
+            }
+
+            // On page load, check the URL hash
+            if (window.location.hash === "#signup") {
+                activateTab("#signup-tab");
+            } else if (window.location.hash === "#login") {
+                activateTab("#login-tab");
+            }
+
+            // Bind click events to navbar links for Sign Up and Sign In
+            var signupLink = document.querySelector('a.nav-link[href="#signup"]');
+            var loginLink = document.querySelector('a.nav-link[href="#login"]');
+
+            if (signupLink) {
+                signupLink.addEventListener("click", function(e) {
+                    e.preventDefault();
+                    activateTab("#signup-tab");
+                    // Update the URL hash without scrolling
+                    history.replaceState(null, null, "#signup");
+                });
+            }
+            if (loginLink) {
+                loginLink.addEventListener("click", function(e) {
+                    e.preventDefault();
+                    activateTab("#login-tab");
+                    history.replaceState(null, null, "#login");
+                });
+            }
+        });
+    </script>
+
+        @await RenderSectionAsync("Scripts", required: false)
+    </body>
+</html>
+

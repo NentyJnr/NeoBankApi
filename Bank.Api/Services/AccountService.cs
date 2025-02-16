@@ -12,11 +12,11 @@ namespace Bank.Api.Services
 {
     public class AccountService : ResponseBaseService, IAccountService
     {
-        private readonly AppDbContext _context;
+        private readonly ApppDbContext _context;
         private readonly IHttpContextAccessor _httpContext;
         private readonly CodeGeneratorHelper _codeGenerator;
 
-        public AccountService(AppDbContext context, IHttpContextAccessor httpContext, CodeGeneratorHelper codeGenerator) : base()
+        public AccountService(ApppDbContext context, IHttpContextAccessor httpContext, CodeGeneratorHelper codeGenerator) : base()
         {
             _context = context;
             _httpContext = httpContext;

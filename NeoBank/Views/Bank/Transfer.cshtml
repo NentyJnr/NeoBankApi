@@ -1,0 +1,107 @@
+﻿@using NeoBank.Dto
+@model TransferDto
+
+<partial name="_Notification" />
+
+<div class="card shadow border-0 mt-4">
+    <div class="card-header bg-secondary bg-gradient py-3">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h2 class="text-white py-2">Transfer Funds</h2>
+            </div>
+        </div>
+    </div>
+    <div class="card-body p-4">
+        <form method="post" class="row">
+            <div class="border p-3">
+                <!-- Display validation errors -->
+                <div asp-validation-summary="All" class="text-danger"></div>
+
+                <!-- Sender Account Number Field -->
+                <div class="form-floating py-2 col-12">
+                    <input asp-for="SenderAccountNumber" class="form-control border-0 shadow" placeholder="Enter Sender Account Number" id="senderAccountNumber" />
+                    <label asp-for="SenderAccountNumber" class="ms-2"></label>
+                    <span asp-validation-for="SenderAccountNumber" class="text-danger"></span>
+                </div>
+                <div class="mb-2">
+                    <label>Sender Account Name:</label>
+                    <span id="senderAccountName" class="fw-bold"></span>
+                </div>
+
+                <!-- Receiver Account Number Field -->
+                <div class="form-floating py-2 col-12">
+                    <input asp-for="ReceiverAccountNumber" class="form-control border-0 shadow" placeholder="Enter Receiver Account Number" id="receiverAccountNumber" />
+                    <label asp-for="ReceiverAccountNumber" class="ms-2"></label>
+                    <span asp-validation-for="ReceiverAccountNumber" class="text-danger"></span>
+                </div>
+                <div class="mb-2">
+                    <label>Receiver Account Name:</label>
+                    <span id="receiverAccountName" class="fw-bold"></span>
+                </div>
+
+                <!-- Transfer Amount Field -->
+                <div class="form-floating py-2 col-12">
+                    <input asp-for="Amount" class="form-control border-0 shadow" placeholder="Enter Amount" id="amountInput" />
+                    <label asp-for="Amount" class="ms-2"></label>
+                    <span asp-validation-for="Amount" class="text-danger"></span>
+                </div>
+
+                <!-- Submit and Back Buttons -->
+                <div class="row pt-4">
+                    <div class="col-6 col-md-3">
+                        <button type="submit" class="btn btn-primary form-control">
+                            <i class="bi bi-arrow-repeat"></i> Transfer
+                        </button>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <a asp-controller="Bank" asp-action="Index" class="btn btn-outline-primary border form-control">
+                            <i class="bi bi-arrow-left-circle"></i> Back to Accounts
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Function to fetch and display the account name via AJAX
+            function fetchAccountName(inputId, displayId) {
+                var accountNumber = $(inputId).val().trim();
+                if (accountNumber) {
+                    $.ajax({
+                        url: '@Url.Action("GetAccountName", "Account")',
+                        data: { accountNumber: accountNumber },
+                        success: function (result) {
+                            if (result.success) {
+                                $(displayId).text(result.accountName);
+                            } else {
+                                $(displayId).text("Not found");
+                            }
+                        },
+                        error: function () {
+                            $(displayId).text("Error retrieving account name");
+                        }
+                    });
+                } else {
+                    $(displayId).text("");
+                }
+            }
+
+            // Trigger AJAX call when the sender account number field loses focus
+            $('#senderAccountNumber').on('blur', function () {
+                fetchAccountName('#senderAccountNumber', '#senderAccountName');
+            });
+
+            // Trigger AJAX call when the receiver account number field loses focus
+            $('#receiverAccountNumber').on('blur', function () {
+                fetchAccountName('#receiverAccountNumber', '#receiverAccountName');
+            });
+        });
+    </script>
+}
+

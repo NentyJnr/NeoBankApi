@@ -8,10 +8,10 @@ namespace Bank.Api.Helpers
 {
     public class CodeGeneratorHelper : ResponseBaseService
     {
-        private readonly AppDbContext _context;
+        private readonly ApppDbContext _context;
         private readonly IHttpContextAccessor _httpContext;
 
-        public CodeGeneratorHelper(AppDbContext context, IHttpContextAccessor httpContext) : base()
+        public CodeGeneratorHelper(ApppDbContext context, IHttpContextAccessor httpContext) : base()
         {
             _context = context;
             _httpContext = httpContext;
@@ -23,27 +23,18 @@ namespace Bank.Api.Helpers
             var response = new ServerResponse<string>();
             string accountNumber;
             var random = new Random();
-
             try
             {
                 do
                 {
                     accountNumber = $"{random.Next(100000, 999999)}{random.Next(100000, 999999)}";
                 }
-                while (await _context.Accounts.AnyAsync(a => a.AccountNumber == accountNumber)); 
-                if (response.IsSuccessful)
-                {
-                    SetSuccess(response, accountNumber, ResponseCodes.SUCCESS);
-                }
-               
+                while (await _context.Accounts.AnyAsync(a => a.AccountNumber == accountNumber));
+                SetSuccess(response, accountNumber, ResponseCodes.SUCCESS);
             }
             catch (Exception ex)
             {
-                if (!response.IsSuccessful)
-                {
-                    SetError(response, ResponseCodes.FAIL);
-                };
-    
+                SetError(response, ResponseCodes.FAIL);
             }
 
             return response;

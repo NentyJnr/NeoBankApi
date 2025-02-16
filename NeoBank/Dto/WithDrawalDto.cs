@@ -1,0 +1,12 @@
+﻿
+
+namespace NeoBank.Dto
+{
+    public class WithdrawalDto
+    {
+        public string? AccountNumber { get; set; }
+
+       public decimal? Amount { get; set; }
+
+    }
+}
